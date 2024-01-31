@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Water Drop</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<style>
+    :root {
+        --light-white: rgb(185, 183, 183);
+        --border-radius: 8px;
+        --cursorXpos: 50vw;
+        --cursorYpos: 50vh;
+        --cursorXposSVG: 50vw;
+        --cursorYposSVG: 50vh;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #e8e8e8;
+        overflow: hidden;
+    }
+
+    .drop {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        top: var(--cursorYpos);
+        left: var(--cursorXpos);
+        background: transparent;
+        border-radius: 57% 43% 37% 63% / 45% 52% 48% 52%;
+        box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.05), 15px 25px 10px rgba(0, 0, 0, 0.1),
+            15px 20px 20px rgba(0, 0, 0, 0.05), inset -10px -10px 15px rgba(237, 237, 237, 0.9);
+        animation: anim 1s infinite alternate;
+        transition: all 1s ease;
+    }
+
+    .drop:before {
+        content: "";
+        position: absolute;
+        left: 25px;
+        top: 35px;
+        width: 20px;
+        height: 20px;
+        border-radius: 42% 58% 37% 63% / 40% 43% 57% 60%;
+        background: #fff;
+    }
+
+    /* Visit https://democoding.in/ for more free css animation */
+    .drop:after {
+        content: "";
+        position: absolute;
+        left: 60px;
+        top: 25px;
+        width: 10px;
+        height: 10px;
+        border-radius: 42% 58% 37% 63% / 40% 43% 57% 60%;
+        background: #ffffff;
+    }
+
+    @keyframes anim {
+        0% {
+            transform: translateY(0);
+            height: 150px;
+            width: 150px;
+        }
+
+        100% {
+            transform: translateY(40px);
+            height: 135px;
+            width: 160px;
+        }
+    }
+</style>
+
+<body>
+    <div class="drop"></div>
+    /* Visit https://democoding.in/ for more free css animation */
+
+    <script>
+        // Updating positions x and y css variables according to user's mouse position in the boxes section.
+        document.addEventListener("click", updatePosition);
+        function updatePosition(e) {
+            console.log('offsetX: ', e.offsetX, 'offsetY: ', e.offsetY);
+            // const svg = document.querySelector(".svg");
+            const drop = document.querySelector(".drop");
+            // count the Height of DOM elements, counting will be counted but not used because there are no element to the left of the container
+            let parentElementWidth = 0;
+            let parentElementHeight = 0;
+            let parentElement = document.querySelector(".light");
+            while (parentElement) {
+                parentElementHeight +=
+                    parentElement.offsetTop -
+                    parentElement.scrollTop +
+                    parentElement.clientTop;
+
+                parentElementWidth +=
+                    parentElement.offsetLeft -
+                    parentElement.scrollLeft +
+                    parentElement.clientLeft;
+
+                parentElement = parentElement.offsetParent;
+            }
+
+            // document.documentElement.style.setProperty(
+            //     "--cursorXpos",
+            //     `${e.pageX - parentElementWidth}px`
+            // );
+            // document.documentElement.style.setProperty(
+            //     "--cursorYpos",
+            //     `${e.pageY - parentElementHeight}px`
+            // );
+            document.documentElement.style.setProperty(
+                "--cursorXpos",
+                `${e.pageX - drop.offsetHeight / 2}px`
+            );
+            document.documentElement.style.setProperty(
+                "--cursorYpos",
+                `${e.pageY - drop.offsetWidth / 2}px`
+            );
+
+            // document.documentElement.style.setProperty(
+            //     "--cursorXposSVG",
+            //     `${e.pageX - svg.offsetWidth / 2}px`
+            // );
+            // document.documentElement.style.setProperty("--cursorYposSVG", `${e.pageY}px`);
+        }
+    </script>
+</body>
+
+</html>
